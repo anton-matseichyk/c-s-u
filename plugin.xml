@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+            id="cordova-snappit-utils" version="0.0.1">
+        <name>SnappitUtils</name>
+        <description>Cordova Snappit Utils</description>
+        <license>Apache 2.0</license>
+        <engines>
+            <engine name="cordova" version=">=3.0.0" />
+        </engines>
+        <keywords>cordova,utils</keywords>
+        <js-module src="www/SnappitUtils.js" name="SnappitUtils">
+            <clobbers target="snappitUtils" />
+        </js-module>
+
+        <!-- IOS -->
+        <platform name="ios">
+            <config-file target="config.xml" parent="/*">
+                <feature name="SnappitUtils">
+                    <param name="ios-package" value="SnappitUtils"/>
+                </feature>
+            </config-file>
+            <header-file src="src/ios/SnappitUtils.h" />
+            <source-file src="src/ios/SnappitUtils.m" />
+        </platform>
+
+        <!-- Android -->
+        <platform name="android">
+            <config-file target="res/xml/config.xml" parent="/*">
+                <feature name="SnappitUtils">
+                    <param name="android-package" value="com.snappit.SnappitUtils" />
+                </feature>
+            </config-file>
+            
+            <source-file src="src/android/SnappitUtils.java" target-dir="src/com/snappit/" />
+        </platform>
+</plugin>
