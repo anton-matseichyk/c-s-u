@@ -4,6 +4,10 @@
         <name>SnappitUtils</name>
         <description>Cordova Snappit Utils</description>
         <license>Apache 2.0</license>
+
+        <preference name="APP_ID" />
+        <preference name="APP_SCHEME" />
+
         <engines>
             <engine name="cordova" version=">=3.0.0" />
         </engines>
@@ -19,8 +23,32 @@
                     <param name="ios-package" value="SnappitUtils"/>
                 </feature>
             </config-file>
+            
+            <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+                <array>
+                    <dict>
+                        <key>CFBundleURLSchemes</key>
+                        <array>
+                            <string>$APP_SCHEME</string>
+                        </array>
+                        <key>CFBundleURLName</key>
+                        <string>$APP_ID</string>
+                    </dict>
+                </array>
+            </config-file>
+
+
             <header-file src="src/ios/SnappitUtils.h" />
             <source-file src="src/ios/SnappitUtils.m" />
+            
+            <header-file src="src/ios/ViewHelper.h" />
+            <source-file src="src/ios/ViewHelper.m" />
+
+            <header-file src="src/ios/MobilePayManager.h" />
+            <header-file src="src/ios/MobilePayPayment.h" />
+            <header-file src="src/ios/MobilePayCancelledPayment.h" />
+            <header-file src="src/ios/MobilePaySuccessfulPayment.h" />
+            <source-file src="src/ios/libMobilePayManager1.7.1.a" framework="true" />
         </platform>
 
         <!-- Android -->

@@ -3,5 +3,7 @@
 @interface SnappitUtils : CDVPlugin
 
 - (void)getDeviceName:(CDVInvokedUrlCommand*)command;
-
+- (void)initMobilePay:(CDVInvokedUrlCommand*)command;
+- (void)payWithMobilePay:(CDVInvokedUrlCommand*)command;
+@property (nonatomic, strong) UIAlertView *errorInOrderAlertView;
 @end
