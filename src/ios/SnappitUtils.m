@@ -103,27 +103,30 @@
     }
 }
 
--(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options
-{
-    //IMPORTANT - YOU MUST USE THIS IF YOU COMPILING YOUR AGAINST IOS9 SDK
-    [self handleMobilePayPaymentWithUrl:url];
-    return YES;
-}
 
-- (void)handleMobilePayPaymentWithUrl:(NSURL *)url
+//- (void)handleMobilePayPaymentWithUrl:(NSURL *)url
+- (void)handleOpenUrl:(CDVInvokedUrlCommand*)command
 {
+    NSMutableDictionary* options = [command.arguments objectAtIndex:0];
+    NSURL *url = [NSURL URLWithString:[options objectForKey:@"url"]];
+       
+    __block CDVPluginResult* pluginResult = nil;
     [[MobilePayManager sharedInstance]handleMobilePayPaymentWithUrl:url success:^(MobilePaySuccessfulPayment * _Nullable mobilePaySuccessfulPayment) {
+        
         NSString *orderId = mobilePaySuccessfulPayment.orderId;
         NSString *transactionId = mobilePaySuccessfulPayment.transactionId;
         NSString *amountWithdrawnFromCard = [NSString stringWithFormat:@"%f",mobilePaySuccessfulPayment.amountWithdrawnFromCard];
         NSLog(@"MobilePay purchase succeeded: Your have now paid for order with id '%@' and MobilePay transaction id '%@' and the amount withdrawn from the card is: '%@'", orderId, transactionId,amountWithdrawnFromCard);
-        [ViewHelper showAlertWithTitle:@"MobilePay Succeeded" message:[NSString stringWithFormat:@"You have now paid with MobilePay. Your MobilePay transactionId is '%@'", transactionId]];
-        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": '%@',\"transactionId\": '%@',\"amountWithdrawnFromCard\": '%@'}", orderId, transactionId,amountWithdrawnFromCard]];
+        //[ViewHelper showAlertWithTitle:@"MobilePay Succeeded" message:[NSString stringWithFormat:@"You have now paid with MobilePay. Your MobilePay transactionId is '%@'", transactionId]];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     } error:^(NSError * _Nonnull error) {
+        
         NSDictionary *dict = error.userInfo;
         NSString *errorMessage = [dict valueForKey:NSLocalizedFailureReasonErrorKey];
         NSLog(@"MobilePay purchase failed:  Error code '%li' and message '%@'",(long)error.code,errorMessage);
-        [ViewHelper showAlertWithTitle:[NSString stringWithFormat:@"MobilePay Error %li",(long)error.code] message:errorMessage];
+        
+        //[ViewHelper showAlertWithTitle:[NSString stringWithFormat:@"MobilePay Error %li",(long)error.code] message:errorMessage];
         
         //Show an appropriate error message to the user. Check MobilePayManager.h for a complete description of the error codes
         
@@ -131,10 +134,19 @@
         //if (error.code == MobilePayErrorCodeUpdateApp) {
         //    NSLog(@"You must update your MobilePay app");
         //}
-    } cancel:^(MobilePayCancelledPayment * _Nullable mobilePayCancelledPayment) {
-        NSLog(@"MobilePay purchase with order id '%@' cancelled by user", mobilePayCancelledPayment.orderId);
-        [ViewHelper showAlertWithTitle:@"MobilePay Canceled" message:@"You cancelled the payment flow from MobilePay, please pick a fruit and try again"];
         
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: [NSString stringWithFormat:@"{\"success\": \"false\", \"title\":\"%@\",\"message\":\"%@\"}", [NSString stringWithFormat:@"MobilePay Error %li",(long)error.code], errorMessage]];
+        
+
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        
+    } cancel:^(MobilePayCancelledPayment * _Nullable mobilePayCancelledPayment) {
+        
+        NSLog(@"MobilePay purchase with order id '%@' cancelled by user", mobilePayCancelledPayment.orderId);
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": '%@'}", mobilePayCancelledPayment.orderId]];
+        
+        //[ViewHelper showAlertWithTitle:@"MobilePay Canceled" message:@"You cancelled the payment flow from MobilePay, please pick a fruit and try again"];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 

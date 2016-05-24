@@ -25,6 +25,15 @@ var snappitUtils = {
             "payWithMobilePay",
             []
         );
+    },
+    handleOpenUrl: function(successCallback, errorCallback, options) {
+        cordova.exec(
+            successCallback,
+            errorCallback,
+            "SnappitUtils",
+            "handleOpenUrl",
+            [options]
+        );
     }
 };
 
