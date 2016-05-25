@@ -40,9 +40,6 @@
 
             <header-file src="src/ios/SnappitUtils.h" />
             <source-file src="src/ios/SnappitUtils.m" />
-            
-            <header-file src="src/ios/ViewHelper.h" />
-            <source-file src="src/ios/ViewHelper.m" />
 
             <header-file src="src/ios/MobilePayManager.h" />
             <header-file src="src/ios/MobilePayPayment.h" />

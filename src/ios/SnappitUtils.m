@@ -1,5 +1,4 @@
 #import "SnappitUtils.h"
-#import "ViewHelper.h"
 #import <Cordova/CDVPlugin.h>
 #import <sys/utsname.h>
 #import "MobilePayManager.h"
@@ -104,7 +103,7 @@
 }
 
 
-//- (void)handleMobilePayPaymentWithUrl:(NSURL *)url
+
 - (void)handleOpenUrl:(CDVInvokedUrlCommand*)command
 {
     NSMutableDictionary* options = [command.arguments objectAtIndex:0];
@@ -117,16 +116,13 @@
         NSString *transactionId = mobilePaySuccessfulPayment.transactionId;
         NSString *amountWithdrawnFromCard = [NSString stringWithFormat:@"%f",mobilePaySuccessfulPayment.amountWithdrawnFromCard];
         NSLog(@"MobilePay purchase succeeded: Your have now paid for order with id '%@' and MobilePay transaction id '%@' and the amount withdrawn from the card is: '%@'", orderId, transactionId,amountWithdrawnFromCard);
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": '%@',\"transactionId\": '%@',\"amountWithdrawnFromCard\": '%@'}", orderId, transactionId,amountWithdrawnFromCard]];
-        //[ViewHelper showAlertWithTitle:@"MobilePay Succeeded" message:[NSString stringWithFormat:@"You have now paid with MobilePay. Your MobilePay transactionId is '%@'", transactionId]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": \"%@\",\"transactionId\": \"%@\",\"amountWithdrawnFromCard\": \"%@\"}", orderId, transactionId,amountWithdrawnFromCard]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     } error:^(NSError * _Nonnull error) {
         
         NSDictionary *dict = error.userInfo;
         NSString *errorMessage = [dict valueForKey:NSLocalizedFailureReasonErrorKey];
         NSLog(@"MobilePay purchase failed:  Error code '%li' and message '%@'",(long)error.code,errorMessage);
-        
-        //[ViewHelper showAlertWithTitle:[NSString stringWithFormat:@"MobilePay Error %li",(long)error.code] message:errorMessage];
         
         //Show an appropriate error message to the user. Check MobilePayManager.h for a complete description of the error codes
         
@@ -143,9 +139,8 @@
     } cancel:^(MobilePayCancelledPayment * _Nullable mobilePayCancelledPayment) {
         
         NSLog(@"MobilePay purchase with order id '%@' cancelled by user", mobilePayCancelledPayment.orderId);
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": '%@'}", mobilePayCancelledPayment.orderId]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": \"%@\"}", mobilePayCancelledPayment.orderId]];
         
-        //[ViewHelper showAlertWithTitle:@"MobilePay Canceled" message:@"You cancelled the payment flow from MobilePay, please pick a fruit and try again"];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
