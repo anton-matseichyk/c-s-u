@@ -57,5 +57,6 @@
             </config-file>
             
             <source-file src="src/android/SnappitUtils.java" target-dir="src/com/snappit/" />
+            <source-file src="src/android/mobilepay-appswitch-1.7.0.jar" target-dir="libs" />
         </platform>
 </plugin>

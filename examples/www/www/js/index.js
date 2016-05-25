@@ -12,15 +12,10 @@ var app = {
         window.handleOpenURL = function(result){
             setTimeout(function(){
                 console.log(result);
+                //only for ios
                 snappitUtils.handleMobilePayment(
-                    function(result){
-                        console.log(result);
-                        alert(result);
-                    },
-                    function(error){
-                        console.log(error);
-                        alert(error);
-                    },
+                    app.handleMobilePaymentResponse,
+                    app.handleMobilePaymentResponse,
                     {
                         "url": result
                     });
@@ -28,12 +23,14 @@ var app = {
         };
     },
     handleButtonClick: function(){
+
         if(window.snappitUtils){
                 snappitUtils.initMobilePay(
                     function(success){
+                        console.log(success);
                         snappitUtils.payWithMobilePay(
-                            function(){},
-                            function(){},
+                            app.handleMobilePaymentResponse,
+                            app.handleMobilePaymentResponse,
                             {
                                 "orderId":"123456",
                                 "price":"0.01"
@@ -47,6 +44,10 @@ var app = {
            }else{
                 alert("no plugin");
            }
+    },
+    handleMobilePaymentResponse: function(result){
+        console.log(result);
+        alert(result);
     }
 };
 
