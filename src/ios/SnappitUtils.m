@@ -37,8 +37,11 @@
 {
     CDVPluginResult* pluginResult = nil;
     NSString* result = @"MobilePay: Ok";
+    NSMutableDictionary* options = [command.arguments objectAtIndex:0];
+    id merchantId = [options objectForKey:@"merchantId"];
+    id merchantUrlScheme = [options objectForKey:@"merchantUrlScheme"];
 
-    [[MobilePayManager sharedInstance] setupWithMerchantId:@"APPDK0000000000" merchantUrlScheme:@"fruitshop" country:MobilePayCountry_Denmark];
+    [[MobilePayManager sharedInstance] setupWithMerchantId:merchantId merchantUrlScheme:merchantUrlScheme country:MobilePayCountry_Denmark];
     
     //success
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];    
@@ -54,9 +57,13 @@
 {
     CDVPluginResult* pluginResult = nil;
     NSString* result = @"MobilePay: MobilePay flow started";
+    NSMutableDictionary* options = [command.arguments objectAtIndex:0];
+    id orderId = [options objectForKey:@"orderId"];
+    id price = [options objectForKey:@"price"];
+
     
-    MobilePayPayment *payment = [[MobilePayPayment alloc]initWithOrderId:@"123456"
-                                                            productPrice:0.01];
+    MobilePayPayment *payment = [[MobilePayPayment alloc]initWithOrderId:orderId
+                                                            productPrice:[price floatValue]];
     
     //No need to start a payment if one or more parameters are missing
     if (payment && (payment.orderId.length > 0) && (payment.productPrice >= 0)) {
@@ -104,7 +111,7 @@
 
 
 
-- (void)handleOpenUrl:(CDVInvokedUrlCommand*)command
+- (void)handleMobilePayment:(CDVInvokedUrlCommand*)command
 {
     NSMutableDictionary* options = [command.arguments objectAtIndex:0];
     NSURL *url = [NSURL URLWithString:[options objectForKey:@"url"]];

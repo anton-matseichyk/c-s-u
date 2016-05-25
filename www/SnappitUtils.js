@@ -1,3 +1,4 @@
+
 var snappitUtils = {    
     getDeviceName: function(successCallback, errorCallback) {
         cordova.exec(
@@ -8,31 +9,31 @@ var snappitUtils = {
             []
         );
     },
-    initMobilePay: function(successCallback, errorCallback) {
+    initMobilePay: function(successCallback, errorCallback, options) {
         cordova.exec(
             successCallback,
             errorCallback,
             "SnappitUtils",
             "initMobilePay",
-            []
+                     [options]
         );
     },
-    payWithMobilePay: function(successCallback, errorCallback) {
+    payWithMobilePay: function(successCallback, errorCallback, options) {
         cordova.exec(
             successCallback,
             errorCallback,
             "SnappitUtils",
             "payWithMobilePay",
-            []
+            [options]
         );
     },
-    handleOpenUrl: function(successCallback, errorCallback, options) {
+    handleMobilePayment: function(successCallback, errorCallback, options) {
         cordova.exec(
             successCallback,
             errorCallback,
             "SnappitUtils",
-            "handleOpenUrl",
-            [options]
+            "handleMobilePayment",
+                     [options]
         );
     }
 };
