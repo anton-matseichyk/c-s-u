@@ -123,7 +123,7 @@
         NSString *transactionId = mobilePaySuccessfulPayment.transactionId;
         NSString *amountWithdrawnFromCard = [NSString stringWithFormat:@"%f",mobilePaySuccessfulPayment.amountWithdrawnFromCard];
         NSLog(@"MobilePay purchase succeeded: Your have now paid for order with id '%@' and MobilePay transaction id '%@' and the amount withdrawn from the card is: '%@'", orderId, transactionId,amountWithdrawnFromCard);
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": \"%@\",\"transactionId\": \"%@\",\"amountWithdrawnFromCard\": \"%@\"}", orderId, transactionId,amountWithdrawnFromCard]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": \"%@\",\"transactionId\": \"%@\",\"message\": \"Success\",\"success\":\"true\"}", orderId, transactionId]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     } error:^(NSError * _Nonnull error) {
         
@@ -138,7 +138,7 @@
         //    NSLog(@"You must update your MobilePay app");
         //}
         
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: [NSString stringWithFormat:@"{\"success\": \"false\", \"title\":\"%@\",\"message\":\"%@\"}", [NSString stringWithFormat:@"MobilePay Error %li",(long)error.code], errorMessage]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: [NSString stringWithFormat:@"{\"orderId\": \"null\",\"transactionId\": \"null\",\"message\": \"%@\",\"success\":\"false\"}", [NSString stringWithFormat:@"MobilePay Error %li",(long)error.code]]];
         
 
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -146,7 +146,7 @@
     } cancel:^(MobilePayCancelledPayment * _Nullable mobilePayCancelledPayment) {
         
         NSLog(@"MobilePay purchase with order id '%@' cancelled by user", mobilePayCancelledPayment.orderId);
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": \"%@\"}", mobilePayCancelledPayment.orderId]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [NSString stringWithFormat:@"{\"orderId\": \"%@\",\"transactionId\": \"null\",\"message\": \"Cancel\",\"success\":\"false\"}", mobilePayCancelledPayment.orderId]];
         
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];

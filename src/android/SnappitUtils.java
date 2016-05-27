@@ -109,7 +109,10 @@ public class SnappitUtils extends CordovaPlugin {
             MobilePay.getInstance().handleResult(resultCode, data, new ResultCallback() {
               @Override
               public void onSuccess(SuccessResult result) {
-                  currentContext.success("Success payment");
+                  String message = "Success";
+                  String orderId = result.getOrderId();
+                  String transactionId = result.getTransactionId();
+                  currentContext.success("{\"orderId\": \""+orderId+"\",\"transactionId\": \""+transactionId+"\",\"message\": \""+message+"\",\"success\":\"true\"}");
                 // The payment succeeded - you can deliver the product.
               }
               @Override
@@ -117,12 +120,12 @@ public class SnappitUtils extends CordovaPlugin {
                   String message = result.getErrorMessage();
                   String orderId = result.getOrderId();
                   Integer errorCode = result.getErrorCode();
-                  currentContext.error("{\"orderId\":\""+orderId+"\",\"message\":\""+message+"\",\"errorCode\":\""+errorCode+"\"}");
+                  currentContext.error("{\"orderId\": \""+orderId+"\",\"transactionId\": \"null\",\"message\": \""+message+"\",\"success\":\"false\"}");
                   // The payment failed - show an appropriate error message to the user. Consult the MobilePay class documentation for possible error codes.
               }
               @Override
               public void onCancel() {
-                  currentContext.success("Cancel payment");
+                  currentContext.success("{\"orderId\": \"null\",\"transactionId\": \"null\",\"message\": \"Cancel\",\"success\":\"false\"}");
                   // The payment was cancelled.
               }
             });
