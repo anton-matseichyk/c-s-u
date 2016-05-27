@@ -47,7 +47,9 @@ var app = {
     },
     handleMobilePaymentResponse: function(result){
         console.log(result);
-        alert(result);
+        var data = JSON.parse(success);
+        console.log(data);
+        alert(data.orderId, data.transactionId, data.message, data.success);
     }
 };
 
