@@ -41,7 +41,7 @@
     id merchantId = [options objectForKey:@"merchantId"];
     id merchantUrlScheme = [options objectForKey:@"merchantUrlScheme"];
 
-    [[MobilePayManager sharedInstance] setupWithMerchantId:merchantId merchantUrlScheme:merchantUrlScheme country:MobilePayCountry_Denmark];
+    [[MobilePayManager sharedInstance] setupWithMerchantId:merchantId merchantUrlScheme:merchantUrlScheme country:MobilePayCountry_Norway];
     
     //success
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];    
@@ -105,7 +105,7 @@
         //This could also be the Norwegian or the Finish app you want to link to - this is just an example
         //[MobilePayManager sharedInstance].mobilePayAppStoreLinkNO
         //[MobilePayManager sharedInstance].mobilePayAppStoreLinkFI
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[MobilePayManager sharedInstance].mobilePayAppStoreLinkDK]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[MobilePayManager sharedInstance].mobilePayAppStoreLinkNO]];
     }
 }
 
