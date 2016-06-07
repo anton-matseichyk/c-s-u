@@ -70,7 +70,7 @@ public class SnappitUtils extends CordovaPlugin {
 
 
     private void initMobilePay(String merchantId) {
-        MobilePay.getInstance().init(merchantId, Country.DENMARK);
+        MobilePay.getInstance().init(merchantId, Country.NORWAY);
         currentContext.success("Init called");
     }
 
