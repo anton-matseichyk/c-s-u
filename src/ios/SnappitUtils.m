@@ -41,7 +41,12 @@
     id merchantId = [options objectForKey:@"merchantId"];
     id merchantUrlScheme = [options objectForKey:@"merchantUrlScheme"];
 
-    [[MobilePayManager sharedInstance] setupWithMerchantId:merchantId merchantUrlScheme:merchantUrlScheme country:MobilePayCountry_Norway];
+    [[MobilePayManager sharedInstance] setupWithMerchantId:merchantId
+                                         merchantUrlScheme:merchantUrlScheme
+                                            timeoutSeconds:0
+                                             returnSeconds:5
+                                               captureType:MobilePayCaptureType_Reserve
+                                                   country:MobilePayCountry_Norway];
     
     //success
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];    
