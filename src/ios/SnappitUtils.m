@@ -45,7 +45,7 @@
                                          merchantUrlScheme:merchantUrlScheme
                                             timeoutSeconds:0
                                              returnSeconds:5
-                                               captureType:MobilePayCaptureType_Reserve
+                                               captureType:MobilePayCaptureType_PartialCapture
                                                    country:MobilePayCountry_Norway];
     
     //success
