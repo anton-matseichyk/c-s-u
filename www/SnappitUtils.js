@@ -35,7 +35,25 @@ var snappitUtils = {
             "handleMobilePayment",
                      [options]
         );
-    }
+    },
+    enableKeyboardRequiresUserAction: function(successCallback, errorCallback, options) {
+        cordova.exec(
+            successCallback,
+            errorCallback,
+            "SnappitUtils",
+            "enableKeyboardRequiresUserAction",
+                     [options]
+        );
+    },
+    disableKeyboardRequiresUserAction: function(successCallback, errorCallback, options) {
+        cordova.exec(
+            successCallback,
+            errorCallback,
+            "SnappitUtils",
+            "disableKeyboardRequiresUserAction",
+                     [options]
+        );
+    },
 };
 
 module.exports = snappitUtils;

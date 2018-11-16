@@ -157,4 +157,18 @@
     }];
 }
 
+- (void)enableKeyboardRequiresUserAction:(CDVInvokedUrlCommand*)command
+{
+     UIWebView *vc = (UIWebView *) self.webView;
+    vc.keyboardDisplayRequiresUserAction = true;
+    NSLog(@"+-+ keyboardDisplayRequiresUserAction=%@", vc.keyboardDisplayRequiresUserAction ? @"YES" : @"NO");
+}
+
+- (void)disableKeyboardRequiresUserAction:(CDVInvokedUrlCommand*)command
+{
+     UIWebView *vc = (UIWebView *) self.webView;
+    vc.keyboardDisplayRequiresUserAction = false;
+    NSLog(@"+-+ keyboardDisplayRequiresUserAction=%@", vc.keyboardDisplayRequiresUserAction ? @"YES" : @"NO");
+}
+
 @end
