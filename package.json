@@ -1,0 +1,32 @@
+{
+  "name": "cordova-snappit-utils",
+  "version": "1.0.0-dev",
+  "description": "Utils for snappit project",
+  "cordova": {
+    "id": "cordova-snappit-utils",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anton-matseichyk/c-s-u.git"
+  },
+  "keywords": [
+    "cordova",
+    "snappit"
+  ],
+  "engines": {
+    "cordovaDependencies": {
+      "0.2.3": {
+        "cordova": ">=3.1.0"
+      },
+      "3.0.0": {
+        "cordova": ">100"
+      }
+    }
+  },
+  "author": "Anton Matseichyk",
+  "license": "MIT"
+}
